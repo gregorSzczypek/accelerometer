@@ -12,14 +12,17 @@ import android.widget.TextView
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
-    private lateinit var square: TextView
-
+    private lateinit var ball: TextView
+    private lateinit var upDownText: TextView
+    private lateinit var rightLeftText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        square = findViewById(R.id.tv_square)
+        ball = findViewById(R.id.tv_ball)
+        upDownText = findViewById(R.id.tv_upDown_value)
+        rightLeftText = findViewById(R.id.tv_rightLeft_value)
 
         setupSensor()
     }
@@ -46,9 +49,21 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             Log.i("Sensor values", "Sensor value rightLeft $rightLeft")
             Log.i("Sensor values", "Sensor value upDown $upDown")
 
-            square.apply {
-                translationX = rightLeft * -150
-                translationY = upDown * 150
+            ball.apply {
+                translationX = rightLeft * -100
+                translationY = upDown * 100
+            }
+
+            if (rightLeft >= 4.65 || rightLeft <= -4.65) {
+                rightLeftText.setText("Reached side boundaries!!")
+            } else {
+                rightLeftText.setText("rightLeft = $rightLeft")
+            }
+
+            if (upDown >= 9.15 || upDown <= -9.15) {
+                upDownText.setText("Reached height boundaries!!")
+            } else {
+                upDownText.setText("upDown = $upDown")
             }
         }
     }
